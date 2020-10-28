@@ -6,16 +6,21 @@ buildscript {
     }
 }
 
-group 'tech.pegasys.teku'
-version '1.0'
+plugins {
+    id "com.jfrog.bintray" version "1.8.1"
+    id 'maven-publish'
+}
+apply plugin: "java"
+apply plugin: 'maven'
+
+group 'tech.pegasys'
+version '1.0.0'
 
 repositories {
     jcenter()
     mavenCentral()
     google()
 }
-
-apply plugin: "java"
 
 sourceCompatibility = 8
 targetCompatibility = 8
@@ -48,3 +53,39 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = project.group
+            artifactId = rootProject.name
+            version = project.version
+            pom {
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+            }
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+bintray {
+    user = findProperty("bintrayUser")
+    key = findProperty("bintrayApiKey")
+    publish = true
+    setPublications("mavenJava")
+    pkg {
+        userOrg = 'consensys'
+        repo = 'pegasys-repo'
+        name = 'noise-java'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/ConsenSys/noise-java'
+    }
+}
+

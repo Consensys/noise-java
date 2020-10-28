@@ -61,6 +61,9 @@ publishing {
             artifactId = rootProject.name
             version = project.version
             pom {
+                name = rootProject.name
+                description = "Java implementation of Noise security protocol"
+                url = "https://github.com/ConsenSys/noise-java "
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'

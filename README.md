@@ -6,7 +6,7 @@ To add dependency to your Gradle project:
 
 ```gradle
 repositories {
-   jcenter()
+   maven { url "https://artifacts.consensys.net/public/maven/maven/" }
 }
 
 dependencies {
